@@ -1,0 +1,113 @@
+    <!DOCTYPE html>
+    <html class="no-js" lang="en">
+
+
+    <!-- Mirrored from wp.alithemes.com/html/evara/evara-frontend/page-login-register.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Jul 2023 10:10:07 GMT -->
+    <head>
+        <meta charset="utf-8">
+        <title>Evara - eCommerce HTML Template</title>
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta property="og:title" content="">
+        <meta property="og:type" content="">
+        <meta property="og:url" content="">
+        <meta property="og:image" content="">
+        <!-- Favicon -->
+        <link rel="shortcut icon" type="image/x-icon" href="views/assets/imgs/theme/favicon.svg">
+        <!-- Template CSS -->
+        <link rel="stylesheet" href="assets/css/maind134.css?v=3.4">
+        <script src="https://smtpjs.com/v3/smtp.js"></script>
+    </head>
+
+    <body>
+        <div class="container mt-5">
+            <div class="card mx-auto" style="max-width: 400px;">
+                <div class="card-header">
+                    <h2 class="text-center">OTP Verification</h2>
+                </div>
+                <div class="card-body">
+                    <p class="text-center">Please enter the OTP sent to your email or phone number.</p>
+                    
+                    <form action="/verifyOtp" method="post">
+                        <div class="form-group">
+                            <label for="otp">Enter OTP:</label>
+                            <input type="text" class="form-control <%= typeof message !== 'undefined' ? 'is-invalid' : '' %>" id="formOtp" name="formOtp" required>
+                            <% if (typeof message !== 'undefined') { %>
+                                <div class="invalid-feedback">
+                                    <%= message %>
+                                </div>
+                            <% } %>
+                        </div>
+                    
+                        
+                        <button type="submit"  class="btn btn-success btn-block">Verify OTP</button>
+                    </form>
+                
+
+                    
+                    <form method="post" action="/resendOtp" >
+                        <div id="countdown" class="text-center">
+                        
+                        </div>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Automatically close the alert after 5 seconds
+            setTimeout(function () {
+                var alertDiv = document.querySelector('.invalid-feedback');
+                if (alertDiv) {
+                    alertDiv.style.display = 'none';
+                }
+            }, 5000);
+        </script>
+        <script>
+            var countdown = 60; // Set the initial countdown time in seconds
+        
+            function updateCountdown() {
+                document.getElementById('countdown').innerHTML = 'Resend OTP in ' + countdown + ' seconds';
+            }
+        
+            function startCountdown() {
+                var countdownInterval = setInterval(function () {
+                    if (countdown > 0) {
+                        countdown--;
+                        updateCountdown();
+                    } else {
+                        clearInterval(countdownInterval);
+                        document.getElementById('countdown').innerHTML = '<button type="submit" style="background: none; color: #4CAF50; padding: 0; border: none; cursor: pointer; text-decoration: underline;" class="btn btn-link" onclick="startResend()">Resend OTP</button>';
+                    }
+                }, 1000);
+            }
+        
+            function startResend() {
+                // Add your logic here to trigger OTP resend
+                // For now, let's reset the countdown to 60 seconds
+                countdown = 60;
+                startCountdown();
+            }
+        
+            // Start the countdown when the page loads
+            document.addEventListener('DOMContentLoaded', function () {
+                startCountdown();
+            });
+        
+            // Automatically close the alert after 5 seconds
+            setTimeout(function () {
+                var alertDiv = document.querySelector('.invalid-feedback');
+                if (alertDiv) {
+                    alertDiv.style.display = 'none';
+                }
+            }, 5000);
+        </script>
+        
+        
+    <!-- <script src="assets/js/verifyEmail.js"></script> -->
+    </body>
+
+    </html>
+    

@@ -1,0 +1,117 @@
+<%- include('../layouts/head.ejs') -%>  
+
+<body>
+
+    <%- include('../layouts/userHeader.ejs') -%>
+
+    <div class="container mt-5">
+        <div class="card mx-auto" style="max-width: 400px;">
+            <div class="card-header">
+                <h2 class="text-center">OTP Verification</h2>
+            </div>
+            <div class="card-body">
+                <p class="text-center">Please enter the OTP sent to your email</p>
+                
+                <form action="/ForgetPassVerifyOtp" method="post" onsubmit="return validate()">
+                    <div class="form-group">
+                        <label for="otp">Enter OTP:</label>
+                        <input type="text" class="form-control " id="formOtp" name="otpCode" required>
+                         <p id="otpError" style=" color: red;"></p>
+                        <% if (typeof message !== 'undefined') { %>
+                            <p class="error-message" style="color: red;"><%= message %></p>
+                        <% } %>
+                            <div class="invalid-feedback">
+                  
+                            </div>
+                     
+                    </div>
+                
+                    
+                    <button type="submit"  class="btn btn-success btn-block">Verify OTP</button>
+                </form>
+            
+
+                
+                <form method="post" action="/resendOtp" >
+                    <div id="countdown" class="text-center">
+                    
+                    </div>
+                </form>
+                
+            </div>
+        </div>
+    </div>
+
+  
+    <script>
+        function validate() {
+            var otpInput = document.getElementById('formOtp');
+            var otpError = document.getElementById('otpError');
+    
+            if (!otpInput.value.trim()) {
+                otpError.innerText = 'Please enter a valid OTP';
+    
+                // Clear the error message after 3 seconds (adjust the timeout duration as needed)
+                setTimeout(function () {
+                    otpError.innerText = '';
+                }, 3000);
+    
+                return false;
+            }
+    
+            // Clear the error message if OTP is entered
+            otpError.innerText = '';
+    
+            return true;
+        }
+    
+        var countdown = 60; // Set the initial countdown time in seconds
+    
+        function updateCountdown() {
+            document.getElementById('countdown').innerHTML = 'Resend OTP in ' + countdown + ' seconds';
+        }
+    
+        function startCountdown() {
+            var countdownInterval = setInterval(function () {
+                if (countdown > 0) {
+                    countdown--;
+                    updateCountdown();
+                } else {
+                    clearInterval(countdownInterval);
+                    document.getElementById('countdown').innerHTML = '<button type="submit" style="background: none; color: #4CAF50; padding: 0; border: none; cursor: pointer; text-decoration: underline;" class="btn btn-link" onclick="startResend()">Resend OTP</button>';
+                }
+            }, 1000);
+        }
+    
+        function startResend() {
+            // Add your logic here to trigger OTP resend
+            // For now, let's reset the countdown to 60 seconds
+            countdown = 60;
+            startCountdown();
+        }
+    
+        // Start the countdown when the page loads
+        document.addEventListener('DOMContentLoaded', function () {
+            startCountdown();
+        });
+    
+        // Automatically close the alert after 5 seconds
+        setTimeout(function () {
+            var alertDiv = document.querySelector('.invalid-feedback');
+            if (alertDiv) {
+                alertDiv.style.display = 'none';
+            }
+        }, 5000);
+    </script>
+    
+    
+ 
+    
+    
+
+    <%- include("../layouts/userFooter.ejs") -%>
+
+    <%- include("../layouts/footer.ejs") -%>
+
+</body>
+</html>
