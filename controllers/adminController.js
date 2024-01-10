@@ -93,10 +93,6 @@ const logOut = async (req, res) => {
   }
 };
 
-const test = async (req, res) => {
-  console.log("hello");
-};
-
 module.exports = {
   loadDash,
   loadUsersList,

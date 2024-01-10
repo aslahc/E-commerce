@@ -36,7 +36,7 @@ user_route.get("/verifyOtp", auth.isLogout, userController.verifyPageLoad);
 user_route.post("/verifyOtp", auth.isLogout, userController.confirmOtp);
 user_route.get("/home", auth.isLogin, userController.loadHome);
 user_route.get("/logout", auth.isLogin, userController.userLogout);
-user_route.post("/resendOtp", userController.resendOtp);
+user_route.get("/resendOtp", userController.resendOtp);
 
 // Additional routes
 user_route.get("/productDetails", productController.productDetailsPage);

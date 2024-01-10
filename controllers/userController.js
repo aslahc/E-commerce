@@ -68,12 +68,14 @@ const verifyPageLoad = async (req, res) => {
     handleServerError(res, error, "Error loading verify OTP page");
   }
 };
-
+const otpCache = {};
 let otpVal;
 
 const emailVerification = async (email) => {
   try {
     otpVal = Math.floor(Math.random() * 10000).toString();
+    otpCache[email] = otpVal;
+    
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
       port: 587,

@@ -1,84 +1,91 @@
-<%- include('../layouts/head.ejs') -%>  
+<%- include('../layouts/head.ejs') -%>
 
-<body>
+    <body>
 
-    <%- include('../layouts/userHeader.ejs') -%>
+        <%- include('../layouts/userHeader.ejs') -%>
 
-    <div class="container mt-5 pt-35 pb-35" >
+            <div class="container mt-5 pt-35 pb-35">
 
-        <div class="card mx-auto" style="max-width: 400px;">
+                <div class="card mx-auto" style="max-width: 400px;">
 
-            <div class="card-header  text-white" style="background-color: antiquewhite;">
+                    <div class="card-header  text-white" style="background-color: antiquewhite;">
 
-                <h2 class="text-center">Verify Email</h2>
+                        <h2 class="text-center">Verify Email</h2>
 
-            </div>
-
-            <div class="card-body">
-
-                <p class="text-center">Please enter your email</p>
-
-                <form action="/forgetPasswordEmail" method="post" onsubmit="return validateEmail()">
-
-                    <div class="form-group">
-
-                        <label for="otp">Enter Email:</label>
-       
-                        <input type="text" class="form-control" name="email" id="emailInput" required>
-                        <p id="emailError" style="color: red;"></p>
-                        <% if (typeof message !== 'undefined') { %>
-                            <p class="error-message" style="color: red;"><%= message %></p>
-                        <% } %>
-                          
                     </div>
 
-                    <button type="submit" class="btn btn-success btn-block mt-3" onclick="return validateEmail()">send otp</button>
+                    <div class="card-body">
 
-                </form>
+                        <p class="text-center">Please enter your email</p>
+
+                        <form action="/forgetPasswordEmail" method="post" onsubmit="return validateEmail()">
+
+                            <div class="form-group">
+
+                                <label for="otp">Enter Email:</label>
+
+                                <input type="text" class="form-control" name="email" id="emailInput" required>
+                                <p id="emailError" style="color: red;"></p>
+                                <% if (typeof message !=='undefined' ) { %>
+                                    <p class="error-message" style="color: red;">
+                                        <%= message %>
+                                    </p>
+                                    <% } %>
+
+                            </div>
+
+                            <button type="submit" class="btn btn-success btn-block mt-3"
+                                onclick="return validateEmail()">send otp</button>
+
+                        </form>
+
+                    </div>
+
+                </div>
 
             </div>
 
-        </div>
+            <%- include("../layouts/userFooter.ejs") -%>
 
-    </div>
+                <%- include("../layouts/footer.ejs") -%>
 
-    <%- include("../layouts/userFooter.ejs") -%>
+                    <script>
+                        function validateEmail() {
+                            var emailInput = document.getElementById('emailInput');
+                            var emailError = document.getElementById('emailError');
+                            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    <%- include("../layouts/footer.ejs") -%>
+                            if (!emailInput.value.trim()) {
+                                showError('Please enter your email address');
+                                return false;
+                            }
 
- <script>
-    function validateEmail() {
-        var emailInput = document.getElementById('emailInput');
-        var emailError = document.getElementById('emailError');
-        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                            if (!emailRegex.test(emailInput.value)) {
+                                showError('Please enter a valid email address');
+                                return false;
+                            }
 
-        if (!emailInput.value.trim()) {
-            showError('Please enter your email address');
-            return false;
-        }
+                            // Clear the error message if there are no issues
+                            emailError.innerText = '';
 
-        if (!emailRegex.test(emailInput.value)) {
-            showError('Please enter a valid email address');
-            return false;
-        }
+                            return true;
+                        }
 
-        // Clear the error message if there are no issues
-        emailError.innerText = '';
+                        function showError(message) {
+                            var emailError = document.getElementById('emailError');
+                            emailError.innerText = message;
 
-        return true;
-    }
+                            // Clear the error message after 3 seconds (adjust the timeout duration as needed)
+                            setTimeout(function () {
+                                emailError.innerText = '';
+                            }, 3000);
+                        }
+                    </script>
+                    <script>
+                        sessionStorage.removeItem("counter2");
+                        sessionStorage.removeItem("counter3");
+                    </script>
 
-    function showError(message) {
-        var emailError = document.getElementById('emailError');
-        emailError.innerText = message;
+    </body>
 
-        // Clear the error message after 3 seconds (adjust the timeout duration as needed)
-        setTimeout(function () {
-            emailError.innerText = '';
-        }, 3000);
-    }
-</script>
-
-    
-</body>
-</html>
+    </html>

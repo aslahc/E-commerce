@@ -74,12 +74,24 @@ const wishlistToCart = async (req, res) => {
     const cartData = await Cart.findOne({ user_id, product_id });
 
     if (cartData) {
+      if (cartData.quantity >= productData.stock) {
+        // Return an error or handle as needed
+        console.error("Error: Quantity exceeds available stock");
+        return res
+          .status(400)
+          .json({ error: "Quantity exceeds available stock" });
+      } else {
       const updateCart = await Cart.findOneAndUpdate(
         { user_id, product_id },
         { $inc: { quantity: quantity } },
         { new: true }
-      );
+      );}
     } else {
+      if (productData.stock == 0) {
+        return res
+          .status(400)
+          .json({ error: "Quantity exceeds available stock" });
+      }else {
       const cart = new Cart({
         product_id,
         productName,
@@ -92,11 +104,11 @@ const wishlistToCart = async (req, res) => {
 
       await cart.save();
     }
-
-    res.status(200).send("Product added to cart successfully");
+  }
+    res.status(200).json("Product added to cart successfully");
   } catch (error) {
     console.error("Error in wishlistToCart:", error.message);
-    res.status(500).send("Internal Server Error");
+    res.status(500).json("Internal Server Error");
   }
 };
 
